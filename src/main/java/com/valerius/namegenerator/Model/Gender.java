@@ -1,4 +1,3 @@
 package com.valerius.namegenerator.Model;
 
-public enum Gender {
-}
+public enum Gender { MALE, FEMALE, NEUTRAL }
