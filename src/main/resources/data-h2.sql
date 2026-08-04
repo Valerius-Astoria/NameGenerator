@@ -2,6 +2,13 @@
 -- Full catalogs remain in docs/countries.md, docs/races.md, docs/religions.md.
 -- Uses H2 MERGE ... KEY(code) so the script is idempotent against the persistent file DB.
 
+-- Widen text columns created earlier as VARCHAR(255). Hibernate ddl-auto=update
+-- does not lengthen existing columns, so File Away fails on longer remarks/notes.
+ALTER TABLE character_profile ALTER COLUMN background SET DATA TYPE VARCHAR(2000);
+ALTER TABLE character_profile ALTER COLUMN ancestry_note SET DATA TYPE VARCHAR(2000);
+ALTER TABLE character_profile ALTER COLUMN faith_note SET DATA TYPE VARCHAR(2000);
+ALTER TABLE generated_result ALTER COLUMN explanation SET DATA TYPE VARCHAR(2000);
+
 -- ========== Countries ==========
 MERGE INTO country (code, name) KEY(code) VALUES ('AR', 'Argentina');
 MERGE INTO country (code, name) KEY(code) VALUES ('AU', 'Australia');

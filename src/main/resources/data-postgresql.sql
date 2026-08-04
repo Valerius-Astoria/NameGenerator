@@ -2,6 +2,13 @@
 -- Full catalogs remain in docs/countries.md, docs/races.md, docs/religions.md.
 -- Uses INSERT ... ON CONFLICT (code) so the script is idempotent across restarts.
 
+-- Widen text columns created earlier as VARCHAR(255). Hibernate ddl-auto=update
+-- does not lengthen existing columns, so File Away fails on longer remarks/notes.
+ALTER TABLE character_profile ALTER COLUMN background TYPE VARCHAR(2000);
+ALTER TABLE character_profile ALTER COLUMN ancestry_note TYPE VARCHAR(2000);
+ALTER TABLE character_profile ALTER COLUMN faith_note TYPE VARCHAR(2000);
+ALTER TABLE generated_result ALTER COLUMN explanation TYPE VARCHAR(2000);
+
 -- ========== Countries ==========
 INSERT INTO country (code, name) VALUES
     ('AR', 'Argentina'),

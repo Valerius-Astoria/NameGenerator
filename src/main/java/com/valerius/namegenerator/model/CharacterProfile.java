@@ -1,6 +1,7 @@
 package com.valerius.namegenerator.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,17 +49,25 @@ public class CharacterProfile {
     @ManyToMany
     @ToString.Exclude
     private List<Ancestry> ancestries = new ArrayList<>();
+
+    @Size(max = 2000)
+    @Column(length = 2000)
     private String ancestryNote;
 
     @ManyToMany
     @ToString.Exclude
     private List<Faith> faiths = new ArrayList<>();
+
+    @Size(max = 2000)
+    @Column(length = 2000)
     private String faithNote;
 
     @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
     @ToString.Exclude
     private GeneratedResult generatedResult;
 
+    @Size(max = 2000)
+    @Column(length = 2000)
     private String background;
 
     @CreationTimestamp

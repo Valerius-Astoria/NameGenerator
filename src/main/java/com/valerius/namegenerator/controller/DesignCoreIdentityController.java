@@ -8,6 +8,7 @@ import com.valerius.namegenerator.repository.AncestryRepository;
 import com.valerius.namegenerator.repository.CountryRepository;
 import com.valerius.namegenerator.repository.FaithRepository;
 import com.valerius.namegenerator.web.OptionGroup;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -143,7 +144,7 @@ public class DesignCoreIdentityController {
      */
     @PostMapping
     public String processDesign(
-            @ModelAttribute("characterProfile") CharacterProfile characterProfile,
+            @Valid @ModelAttribute("characterProfile") CharacterProfile characterProfile,
             Errors errors) {
         if (errors.hasErrors()) {
             return "design";

@@ -96,7 +96,7 @@
                     </details>
                 </div>
                 <label class="field-label" for="ancestryNote" style="margin-top:1rem;">Ancestry note</label>
-                <textarea id="ancestryNote" th:field="*{ancestryNote}"></textarea>
+                <textarea id="ancestryNote" th:field="*{ancestryNote}" maxlength="2000"></textarea>
             </div>
 
             <div>
@@ -115,13 +115,13 @@
                     </details>
                 </div>
                 <label class="field-label" for="faithNote" style="margin-top:1rem;">Faith note</label>
-                <textarea id="faithNote" th:field="*{faithNote}"></textarea>
+                <textarea id="faithNote" th:field="*{faithNote}" maxlength="2000"></textarea>
             </div>
 
             <div>
                 <h2 class="section-title">Background</h2>
                 <label class="field-label" for="background">Remarks</label>
-                <textarea id="background" th:field="*{background}"></textarea>
+                <textarea id="background" th:field="*{background}" maxlength="2000"></textarea>
             </div>
 
             <div class="actions">
