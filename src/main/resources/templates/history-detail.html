@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NameGenerator — Verdict</title>
+    <title>NameGenerator — Record</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <nav class="site-nav">
         <div class="nav-links">
             <a th:href="@{/design}">New dossier</a>
-            <a th:href="@{/history}">Archive</a>
+            <a th:href="@{/history}" class="nav-active">Archive</a>
         </div>
         <div class="nav-session">
             <span class="nav-user" sec:authentication="name">writer@example.com</span>
@@ -27,38 +27,33 @@
 
     <header class="site-header">
         <div>
-            <p class="step"><span class="step-dot"></span> Case file · II</p>
+            <p class="step"><span class="step-dot"></span> Archived record</p>
             <h1 class="brand">Name<span>Generator</span></h1>
         </div>
-        <p class="lede">The name attached to this dossier. Confirm, revise, or begin again.</p>
+        <p class="lede"
+           th:text="|Filed ${#temporals.format(result.createdAt.atZone(T(java.time.ZoneId).systemDefault()), 'd MMMM yyyy, HH:mm')}.|">
+            Filed 4 August 2026, 15:12.</p>
     </header>
 
     <p class="fleuron" aria-hidden="true">❦</p>
 
     <section class="panel result-hero">
-        <span class="seal" th:if="${name != null}" aria-hidden="true"
-              th:text="${#strings.substring(name, 0, 1)}">E</span>
+        <span class="seal" aria-hidden="true"
+              th:text="${#strings.substring(result.generatedName, 0, 1)}">S</span>
 
-        <div th:if="${generationFailed}" class="alert">
-            Name could not be generated.
-        </div>
-
-        <div th:if="${name != null}">
+        <div>
             <p class="step"><span class="step-dot"></span> Subject</p>
-            <h2 class="result-name" th:text="${nativeName != null ? nativeName : name}">Elena Marchetti</h2>
+            <h2 class="result-name"
+                th:text="${result.nativeName != null ? result.nativeName : result.generatedName}">苏怀瑾</h2>
             <p class="result-name-latin"
-               th:if="${nativeName != null and nativeName != name}"
-               th:text="${name}">Elena Marchetti</p>
-            <p class="result-annotation" th:text="${annotation}">
+               th:if="${result.nativeName != null and result.nativeName != result.generatedName}"
+               th:text="${result.generatedName}">Su Huaijin</p>
+            <p class="result-annotation" th:text="${result.explanation}">
                 Annotation explaining the name.
             </p>
         </div>
 
-        <div th:if="${name == null and generationFailed == null}">
-            <h2 class="section-title">No name on file</h2>
-        </div>
-
-        <dl class="summary" th:object="${characterProfile}">
+        <dl class="summary" th:object="${result.profile}">
             <div class="summary-item">
                 <dt>Gender</dt>
                 <dd th:text="*{gender} ?: '—'">Male</dd>
@@ -103,14 +98,10 @@
             </div>
         </dl>
 
-        <form method="post" th:action="@{/generate}" th:object="${characterProfile}" class="actions">
-            <input type="hidden" name="generatedName" th:value="${name}">
-            <input type="hidden" name="generatedNativeName" th:value="${nativeName}">
-            <input type="hidden" name="generatedExplanation" th:value="${annotation}">
-            <button class="btn btn-primary" type="submit" th:disabled="${name == null}">File away</button>
-            <a class="btn btn-secondary" th:href="@{/design}">Revise dossier</a>
-            <a class="btn btn-secondary" th:href="@{/generate/current}">Draw again</a>
-        </form>
+        <div class="actions">
+            <a class="btn btn-secondary" th:href="@{/history}">Back to the archive</a>
+            <a class="btn btn-secondary" th:href="@{/design}">Open a new dossier</a>
+        </div>
     </section>
 </main>
 </body>

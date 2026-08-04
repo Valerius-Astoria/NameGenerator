@@ -1,0 +1,11 @@
+target/
+data/
+.git/
+.gitignore
+.idea/
+.vscode/
+docs/
+HELP.md
+*.md
+.env
+src/main/resources/application-local.properties

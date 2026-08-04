@@ -1,10 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NameGenerator — Dossier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
 </head>
 <body>
-$END$
+<main class="page">
+    <nav class="site-nav">
+        <div class="nav-links">
+            <a th:href="@{/design}" class="nav-active">New dossier</a>
+            <a th:href="@{/history}">Archive</a>
+        </div>
+        <div class="nav-session">
+            <span class="nav-user" sec:authentication="name">writer@example.com</span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="nav-signout">Sign out</button>
+            </form>
+        </div>
+    </nav>
+
+    <header class="site-header">
+        <div>
+            <p class="step"><span class="step-dot"></span> Case file · I</p>
+            <h1 class="brand">Name<span>Generator</span></h1>
+        </div>
+        <p class="lede">Assemble the subject’s identity. Leave blank what remains unknown.</p>
+    </header>
+
+    <p class="fleuron" aria-hidden="true">❦</p>
+
+    <section class="panel">
+        <form method="post" th:action="@{/design}" th:object="${characterProfile}" class="form-grid">
+            <div>
+                <h2 class="section-title">Particulars</h2>
+                <div class="field-row">
+                    <div>
+                        <span class="field-label">Gender</span>
+                        <div class="choice-row">
+                            <label class="choice" th:each="g : ${genders}">
+                                <input type="radio" th:field="*{gender}" th:value="${g}">
+                                <span th:switch="${g.name()}">
+                                    <th:block th:case="'MALE'">Male</th:block>
+                                    <th:block th:case="'FEMALE'">Female</th:block>
+                                    <th:block th:case="'NEUTRAL'">Neutral</th:block>
+                                    <th:block th:case="*">[[${g}]]</th:block>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="field-label" for="age">Age</label>
+                        <input id="age" type="number" min="0" max="120" th:field="*{age}">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="section-title">Country</h2>
+                <label class="field-label" for="country">Residence / nationality</label>
+                <select id="country" th:field="*{country}">
+                    <option value="">—</option>
+                    <option th:each="c : ${countries}"
+                            th:value="${c.id}"
+                            th:text="${c.name}">China</option>
+                </select>
+            </div>
+
+            <div>
+                <h2 class="section-title">Ancestry</h2>
+                <div class="group-list">
+                    <details class="group" th:each="group : ${ancestryGroups}">
+                        <summary th:text="${group.name()}">East Asian</summary>
+                        <div class="group-body">
+                            <label class="check" th:each="option : ${group.children()}">
+                                <input type="checkbox"
+                                       th:field="*{ancestries}"
+                                       th:value="${option.id}">
+                                <span th:text="${option.name}">Han Chinese</span>
+                            </label>
+                        </div>
+                    </details>
+                </div>
+                <label class="field-label" for="ancestryNote" style="margin-top:1rem;">Ancestry note</label>
+                <textarea id="ancestryNote" th:field="*{ancestryNote}"></textarea>
+            </div>
+
+            <div>
+                <h2 class="section-title">Faith</h2>
+                <div class="group-list">
+                    <details class="group" th:each="group : ${faithGroups}">
+                        <summary th:text="${group.name()}">Christianity</summary>
+                        <div class="group-body">
+                            <label class="check" th:each="option : ${group.children()}">
+                                <input type="checkbox"
+                                       th:field="*{faiths}"
+                                       th:value="${option.id}">
+                                <span th:text="${option.name}">Roman Catholic</span>
+                            </label>
+                        </div>
+                    </details>
+                </div>
+                <label class="field-label" for="faithNote" style="margin-top:1rem;">Faith note</label>
+                <textarea id="faithNote" th:field="*{faithNote}"></textarea>
+            </div>
+
+            <div>
+                <h2 class="section-title">Background</h2>
+                <label class="field-label" for="background">Remarks</label>
+                <textarea id="background" th:field="*{background}"></textarea>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Open the file</button>
+            </div>
+        </form>
+    </section>
+</main>
 </body>
 </html>

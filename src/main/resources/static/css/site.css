@@ -1,0 +1,843 @@
+/*
+ * NameGenerator — dark academia theme.
+ * Palette: walnut grounds, worn-leather panels, brass rules, oxblood (wax-seal red) accents,
+ * parchment text. Type: Cormorant Garamond (display), EB Garamond (body), IM Fell English SC
+ * (antique small-caps eyebrows). Signature: the oxblood wax seal on the verdict page.
+ */
+
+:root {
+  --walnut: #1a100a;
+  --walnut-deep: #100904;
+  --leather: #2a1a10;
+  --leather-edge: #4d3521;
+  --parchment: #eadcc0;
+  --parchment-dim: #c9b394;
+  --sepia: #94795a;
+  --brass: #b3894f;
+  --brass-bright: #d6ad6d;
+  --brass-soft: rgba(179, 137, 79, 0.14);
+  --oxblood: #772e24;
+  --oxblood-bright: #a34a39;
+  --oxblood-soft: rgba(119, 46, 36, 0.22);
+  --line: rgba(179, 137, 79, 0.28);
+  --line-faint: rgba(179, 137, 79, 0.14);
+  --shadow: 0 26px 54px rgba(0, 0, 0, 0.5);
+  --radius: 3px;
+  --font-display: "Cormorant Garamond", "Palatino Linotype", Palatino, serif;
+  --font-body: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --font-antique: "IM Fell English SC", "Cormorant Garamond", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  background:
+    radial-gradient(ellipse at 18% -4%, rgba(214, 173, 109, 0.07), transparent 40%),
+    radial-gradient(ellipse at 85% 100%, rgba(0, 0, 0, 0.6), transparent 50%),
+    linear-gradient(168deg, #23140b 0%, var(--walnut) 46%, var(--walnut-deep) 100%);
+}
+
+/* Faint wood-grain striation, like a reading-room desk under lamplight. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    repeating-linear-gradient(
+      92deg,
+      transparent 0,
+      transparent 5px,
+      rgba(214, 173, 109, 0.02) 5px,
+      rgba(214, 173, 109, 0.02) 6px
+    );
+}
+
+/* Candlelight vignette. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 18%, transparent 55%, rgba(0, 0, 0, 0.42) 100%);
+}
+
+a {
+  color: var(--brass-bright);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  width: min(960px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.5rem 0 4.5rem;
+}
+
+/* ---------- Header: engraved catalogue card ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  animation: rise 0.75s ease both;
+}
+
+/* Second hairline under the header — an engraved double rule. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  border-bottom: 1px solid var(--line-faint);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.015em;
+  margin: 0;
+  color: var(--parchment);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.brand span {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--brass);
+  font-family: var(--font-antique);
+  font-size: 0.34em;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+}
+
+.lede {
+  max-width: 27rem;
+  margin: 0;
+  color: var(--sepia);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.7rem;
+  color: var(--oxblood-bright);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  font-family: var(--font-antique);
+}
+
+.step-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--oxblood-bright);
+  box-shadow: 0 0 0 4px var(--oxblood-soft);
+}
+
+/* Fleuron divider between the header and the panel. */
+.fleuron {
+  margin: 0 0 1.1rem;
+  text-align: center;
+  color: var(--brass);
+  font-size: 1.15rem;
+  letter-spacing: 1.2em;
+  padding-left: 1.2em; /* balance the trailing letter-spacing */
+  user-select: none;
+  animation: fade 0.9s ease 0.15s both;
+}
+
+/* ---------- Panels: bookplate framing ---------- */
+
+.panel {
+  background:
+    linear-gradient(180deg, rgba(214, 173, 109, 0.05), transparent 30%),
+    var(--leather);
+  border: 1px solid var(--leather-edge);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(214, 173, 109, 0.1);
+  border-radius: var(--radius);
+  padding: clamp(1.4rem, 3.2vw, 2.25rem);
+  animation: rise 0.85s ease 0.08s both;
+  position: relative;
+}
+
+/* Inner engraved frame, like an ex-libris plate. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--line-faint);
+  pointer-events: none;
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 1px solid rgba(179, 137, 79, 0.07);
+  pointer-events: none;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--parchment);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Hairline that trails off each section heading, like a ledger rule. */
+.section-title::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--line-faint);
+  transform: translateY(0.2em);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+label.field-label,
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--brass);
+  font-family: var(--font-antique);
+}
+
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--leather-edge);
+  border-radius: 2px;
+  background: #1c110a;
+  color: var(--parchment);
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 121, 90, 0.65);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px var(--brass-soft);
+}
+
+select option {
+  background: #1c110a;
+  color: var(--parchment);
+}
+
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.choice {
+  position: relative;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0.4rem 0.95rem;
+  border: 1px solid var(--leather-edge);
+  border-radius: 2px;
+  background: #221409;
+  color: var(--parchment-dim);
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 0.98rem;
+}
+
+.choice input:checked + span {
+  background: var(--oxblood-soft);
+  border-color: var(--oxblood-bright);
+  color: var(--parchment);
+}
+
+.choice input:focus-visible + span {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.group-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.group {
+  border: 1px solid var(--leather-edge);
+  border-radius: 2px;
+  background: #221409;
+  overflow: hidden;
+}
+
+.group summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--parchment);
+  letter-spacing: 0.04em;
+}
+
+.group summary::-webkit-details-marker {
+  display: none;
+}
+
+.group summary::after {
+  content: "+";
+  float: right;
+  color: var(--brass);
+}
+
+.group[open] summary::after {
+  content: "–";
+}
+
+.group-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+  animation: fade 0.35s ease both;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 2px;
+  background: #1c110a;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  color: var(--parchment-dim);
+}
+
+.check:hover {
+  border-color: rgba(179, 137, 79, 0.4);
+}
+
+.check input {
+  accent-color: var(--oxblood-bright);
+}
+
+/* ---------- Actions ---------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--leather-edge);
+  border-radius: 2px;
+  padding: 0.85rem 1.4rem;
+  font-family: var(--font-antique);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, background 0.18s ease,
+    border-color 0.18s ease, color 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary action: sealing-wax red bound in brass. */
+.btn-primary {
+  background: linear-gradient(180deg, var(--oxblood-bright), var(--oxblood));
+  color: var(--parchment);
+  border-color: var(--brass);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(234, 220, 192, 0.18);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #b25545, #86362a);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--brass-bright);
+}
+
+.btn-secondary:hover {
+  border-color: var(--brass);
+  background: var(--brass-soft);
+}
+
+/* ---------- Verdict page ---------- */
+
+.result-hero {
+  display: grid;
+  gap: 1.15rem;
+  position: relative;
+  z-index: 1;
+  animation: rise 0.75s ease both;
+}
+
+.result-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 4.2rem);
+  font-weight: 600;
+  line-height: 1.08;
+  color: var(--parchment);
+  letter-spacing: 0.01em;
+}
+
+/* Romanized/English form shown beneath a native-script result name. */
+.result-name-latin {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.8vw, 1.6rem);
+  letter-spacing: 0.09em;
+  color: var(--brass-bright);
+}
+
+.result-annotation {
+  margin: 0.35rem 0 0;
+  max-width: 42rem;
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--parchment-dim);
+}
+
+/* Illuminated drop cap on the annotation. */
+.result-annotation::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-size: 3.1em;
+  line-height: 0.82;
+  padding: 0.06em 0.12em 0 0;
+  color: var(--oxblood-bright);
+}
+
+/* Wax seal stamped on the verdict panel — the page's signature element. */
+.seal {
+  position: absolute;
+  top: clamp(1rem, 3vw, 1.9rem);
+  right: clamp(1rem, 3.5vw, 2.1rem);
+  width: 4.6rem;
+  height: 4.6rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-8deg);
+  background:
+    radial-gradient(circle at 34% 30%, var(--oxblood-bright), var(--oxblood) 58%, #571f18 100%);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.5),
+    inset 0 2px 3px rgba(234, 220, 192, 0.22),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-antique);
+  font-size: 1.55rem;
+  color: rgba(234, 220, 192, 0.85);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+
+/* Impressed ring inside the seal. */
+.seal::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  border: 1px solid rgba(234, 220, 192, 0.35);
+}
+
+.summary {
+  display: grid;
+  gap: 0;
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.summary-item {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0.75rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line-faint);
+  font-size: 1rem;
+}
+
+.summary-item dt {
+  margin: 0;
+  color: var(--brass);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  font-family: var(--font-antique);
+}
+
+.summary-item dd {
+  margin: 0;
+  color: var(--parchment);
+}
+
+.alert {
+  border-radius: 2px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.25rem;
+  background: var(--oxblood-soft);
+  color: #d9a091;
+  border: 1px solid rgba(163, 74, 57, 0.5);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Navigation strip ---------- */
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line-faint);
+  font-family: var(--font-antique);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  animation: fade 0.6s ease both;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.4rem;
+}
+
+.nav-links a {
+  color: var(--sepia);
+  text-decoration: none;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.nav-links a:hover {
+  color: var(--brass-bright);
+}
+
+.nav-links a.nav-active {
+  color: var(--brass-bright);
+  border-bottom-color: var(--brass);
+}
+
+.nav-session {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-user {
+  color: var(--sepia);
+  font-family: var(--font-body);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.nav-session form {
+  margin: 0;
+}
+
+.nav-signout {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0 0 0.15rem;
+  color: var(--oxblood-bright);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+
+.nav-signout:hover {
+  border-bottom-color: var(--oxblood-bright);
+}
+
+.nav-signout:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ---------- Auth pages ---------- */
+
+.page-narrow {
+  width: min(560px, calc(100% - 2rem));
+}
+
+.auth-panel .actions {
+  margin-top: 0.3rem;
+}
+
+.field-error {
+  margin: 0.45rem 0 0;
+  color: var(--oxblood-bright);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.flash {
+  border-radius: 2px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.25rem;
+  background: var(--brass-soft);
+  color: var(--brass-bright);
+  border: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Archive cards ---------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1rem;
+  animation: rise 0.75s ease both;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.2rem 1.25rem 1.3rem;
+  background:
+    linear-gradient(180deg, rgba(214, 173, 109, 0.05), transparent 32%),
+    var(--leather);
+  border: 1px solid var(--leather-edge);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(214, 173, 109, 0.08);
+  color: inherit;
+  text-decoration: none;
+  position: relative;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-faint);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brass);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(214, 173, 109, 0.12);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.card-date {
+  margin: 0;
+  color: var(--sepia);
+  font-family: var(--font-antique);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+}
+
+.card-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--parchment);
+}
+
+.card-name-latin {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: 0.07em;
+  color: var(--brass-bright);
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  margin: 0.1rem 0 0;
+  color: var(--brass);
+  font-family: var(--font-antique);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+.card-snippet {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0.15rem 0 0;
+  color: var(--parchment-dim);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .site-header,
+  .site-nav,
+  .panel,
+  .fleuron,
+  .group-body,
+  .card-grid,
+  .result-hero {
+    animation: none;
+  }
+
+  .btn:hover,
+  .card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .field-row,
+  .summary-item {
+    grid-template-columns: 1fr;
+  }
+
+  .page {
+    width: min(100% - 1.25rem, 960px);
+    padding-top: 1.25rem;
+  }
+
+  .seal {
+    width: 3.6rem;
+    height: 3.6rem;
+    font-size: 1.2rem;
+  }
+}

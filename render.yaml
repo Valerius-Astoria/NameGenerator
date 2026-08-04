@@ -1,0 +1,16 @@
+# Render Blueprint: one free-tier web service built from the Dockerfile.
+# Secrets (GOOGLE_API_KEY, SPRING_DATASOURCE_URL) are entered in the Render
+# dashboard on first deploy — never commit them.
+services:
+  - type: web
+    name: namegenerator
+    runtime: docker
+    plan: free
+    healthCheckPath: /login
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: postgres
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: SPRING_DATASOURCE_URL
+        sync: false

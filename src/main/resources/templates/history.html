@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NameGenerator — Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<main class="page">
+    <nav class="site-nav">
+        <div class="nav-links">
+            <a th:href="@{/design}">New dossier</a>
+            <a th:href="@{/history}" class="nav-active">Archive</a>
+        </div>
+        <div class="nav-session">
+            <span class="nav-user" sec:authentication="name">writer@example.com</span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="nav-signout">Sign out</button>
+            </form>
+        </div>
+    </nav>
+
+    <header class="site-header">
+        <div>
+            <p class="step"><span class="step-dot"></span> The archive</p>
+            <h1 class="brand">Name<span>Generator</span></h1>
+        </div>
+        <p class="lede">Every name you have filed. Open a card to read the full record.</p>
+    </header>
+
+    <p class="fleuron" aria-hidden="true">❦</p>
+
+    <section class="panel" th:if="${#lists.isEmpty(results)}">
+        <h2 class="section-title">Nothing filed yet</h2>
+        <p class="result-annotation">
+            Design a character and file its verdict; the record will be kept here.
+        </p>
+        <div class="actions" style="margin-top:1.1rem;">
+            <a class="btn btn-primary" th:href="@{/design}">Open a new dossier</a>
+        </div>
+    </section>
+
+    <div class="card-grid" th:unless="${#lists.isEmpty(results)}">
+        <a class="card" th:each="r : ${results}" th:href="@{/history/{id}(id=${r.id})}">
+            <p class="card-date"
+               th:text="${#temporals.format(r.createdAt.atZone(T(java.time.ZoneId).systemDefault()), 'd MMM yyyy · HH:mm')}">
+                4 Aug 2026 · 15:12</p>
+            <h2 class="card-name"
+                th:text="${r.nativeName != null ? r.nativeName : r.generatedName}">苏怀瑾</h2>
+            <p class="card-name-latin"
+               th:if="${r.nativeName != null and r.nativeName != r.generatedName}"
+               th:text="${r.generatedName}">Su Huaijin</p>
+            <p class="card-meta">
+                <span th:if="${r.profile.country != null}" th:text="${r.profile.country.name}">China</span>
+                <span th:if="${r.profile.gender != null}"
+                      th:text="${#strings.capitalize(#strings.toLowerCase(r.profile.gender))}">Male</span>
+                <span th:if="${r.profile.age != null}" th:text="|Age ${r.profile.age}|">Age 45</span>
+            </p>
+            <p class="card-snippet" th:text="${r.explanation}">Annotation…</p>
+        </a>
+    </div>
+</main>
+</body>
+</html>

@@ -7,9 +7,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Reference dictionary entry for a character's faith / religion.
- * Supports a two-level hierarchy: primary traditions (e.g. Christianity) and
- * secondary branches (e.g. Roman Catholic). See docs/religions.md.
+ * Reference dictionary entry for a character's faith
+ *
+ * <p>Supports a two-level hierarchy: primary traditions (e.g. Christianity) and
+ * secondary branches (e.g. Roman Catholic). Characters may hold multiple faiths
+ * via {@link CharacterProfile#getFaiths()}</p>
+ *
  */
 @Getter
 @Setter
@@ -20,13 +23,15 @@ public class Faith {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include // only id is used for equals/hashCode
+    @EqualsAndHashCode.Include
     private Long id;
 
-    private String code; // Stable business key for seed data and APIs, e.g. "CHRISTIANITY", "ROMAN_CATHOLIC".
+    @Column(nullable = false, unique = true)
+    private String code;
+
     private String name;
 
     @ManyToOne
-    @ToString.Exclude // only print the children
+    @ToString.Exclude
     private Faith parent;
 }

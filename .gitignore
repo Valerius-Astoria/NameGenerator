@@ -1,5 +1,9 @@
 HELP.md
 target/
+.env
+*.local.properties
+application-local.properties
+data/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

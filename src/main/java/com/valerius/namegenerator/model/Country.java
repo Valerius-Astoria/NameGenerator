@@ -1,5 +1,6 @@
 package com.valerius.namegenerator.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,9 +12,11 @@ import lombok.ToString;
 
 /**
  * Reference dictionary entry for a character's country / nationality.
- * Covers modern sovereign states and selected historical entries (e.g. Soviet Union).
- * Used by {@link CharacterProfile} to indicate where the character is from or lives.
- * Seed data aligns with docs/countries.md.
+ *
+ * <p>Covers modern sovereign states and selected historical entries
+ * (e.g. Soviet Union).
+ * </p>
+ *
  */
 @Getter
 @Setter
@@ -27,6 +30,8 @@ public class Country {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String code;
+
     private String name;
 }

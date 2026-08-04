@@ -5,8 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,34 +15,30 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 
 /**
- * Persisted result of a single name-generation attempt for a character profile.
+ * A registered writer account. Authentication is by email + BCrypt password hash;
+ * character profiles (and through them, generation history) belong to a user.
+ *
+ * <p>Mapped to {@code app_user} because {@code USER} is a reserved word in H2.</p>
  */
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class GeneratedResult {
+@Table(name = "app_user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "profile_id", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @ToString.Exclude
-    private CharacterProfile profile;
-
     @Column(nullable = false)
-    private String generatedName;
-
-    /** The name in its native script (equals {@code generatedName} for Latin-script cultures). */
-    @Column
-    private String nativeName;
-
-    @Column(nullable = false, length = 2000)
-    private String explanation;
+    private String passwordHash;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

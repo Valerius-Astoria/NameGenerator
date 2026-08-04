@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NameGenerator — Sign in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/site.css}">
+</head>
+<body>
+<main class="page page-narrow">
+    <header class="site-header">
+        <div>
+            <p class="step"><span class="step-dot"></span> Reading room</p>
+            <h1 class="brand">Name<span>Generator</span></h1>
+        </div>
+        <p class="lede">Sign in to open your dossiers and consult the archive.</p>
+    </header>
+
+    <p class="fleuron" aria-hidden="true">❦</p>
+
+    <section class="panel auth-panel">
+        <div th:if="${param.error}" class="alert">Email or password not recognized.</div>
+        <div th:if="${param.registered}" class="flash">Account created. Sign in to continue.</div>
+        <div th:if="${param.loggedOut}" class="flash">Signed out.</div>
+
+        <form method="post" th:action="@{/login}" class="form-grid">
+            <div>
+                <label class="field-label" for="username">Email</label>
+                <input id="username" name="username" type="email"
+                       autocomplete="email" required autofocus>
+            </div>
+            <div>
+                <label class="field-label" for="password">Password</label>
+                <input id="password" name="password" type="password"
+                       autocomplete="current-password" required>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" type="submit">Sign in</button>
+                <a class="btn btn-secondary" th:href="@{/register}">Create an account</a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
