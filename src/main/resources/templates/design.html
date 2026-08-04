@@ -11,6 +11,13 @@
     <link rel="stylesheet" th:href="@{/css/site.css}">
 </head>
 <body>
+<div class="wait-overlay" id="waitOverlay" aria-live="polite" aria-busy="false" hidden>
+    <div class="wait-card">
+        <p class="fleuron" aria-hidden="true">❦</p>
+        <p class="wait-title">Consulting the archives…</p>
+        <p class="wait-line">Tracing naming customs and composing a verdict.</p>
+    </div>
+</div>
 <main class="page">
     <nav class="site-nav">
         <div class="nav-links">
@@ -36,7 +43,8 @@
     <p class="fleuron" aria-hidden="true">❦</p>
 
     <section class="panel">
-        <form method="post" th:action="@{/design}" th:object="${characterProfile}" class="form-grid">
+        <form method="post" th:action="@{/design}" th:object="${characterProfile}"
+              class="form-grid" id="designForm">
             <div>
                 <h2 class="section-title">Particulars</h2>
                 <div class="field-row">
@@ -117,10 +125,24 @@
             </div>
 
             <div class="actions">
-                <button class="btn btn-primary" type="submit">Open the file</button>
+                <button class="btn btn-primary" type="submit" id="designSubmit">Open the file</button>
             </div>
         </form>
     </section>
 </main>
+<script>
+(function () {
+    var overlay = document.getElementById('waitOverlay');
+    var form = document.getElementById('designForm');
+    var submit = document.getElementById('designSubmit');
+    if (!overlay || !form) return;
+    form.addEventListener('submit', function () {
+        overlay.hidden = false;
+        overlay.setAttribute('aria-busy', 'true');
+        document.body.classList.add('is-waiting');
+        if (submit) submit.disabled = true;
+    });
+})();
+</script>
 </body>
 </html>

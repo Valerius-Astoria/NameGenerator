@@ -44,9 +44,12 @@ INSERT INTO ancestry (code, name, parent_id) VALUES
     ('LATINO_HISPANIC', 'Latino / Hispanic', NULL),
     ('BLACK_AFRICAN_DIASPORA', 'Black / African Diaspora', NULL),
     ('JEWISH', 'Jewish', NULL),
-    ('MIXED_MULTIRACIAL', 'Mixed / Multiracial', NULL),
     ('UNSPECIFIED', 'Unspecified', NULL)
 ON CONFLICT (code) DO UPDATE SET name = EXCLUDED.name;
+
+-- Drop retired Mixed / Multiracial option (and any profile links) on restart
+DELETE FROM character_profile_ancestries WHERE ancestries_id IN (SELECT id FROM ancestry WHERE code = 'MIXED_MULTIRACIAL');
+DELETE FROM ancestry WHERE code = 'MIXED_MULTIRACIAL';
 
 -- ========== Ancestry (secondary) ==========
 INSERT INTO ancestry (code, name, parent_id) SELECT 'HAN_CHINESE', 'Han Chinese', id FROM ancestry WHERE code = 'EAST_ASIAN' ON CONFLICT (code) DO UPDATE SET name = EXCLUDED.name, parent_id = EXCLUDED.parent_id;

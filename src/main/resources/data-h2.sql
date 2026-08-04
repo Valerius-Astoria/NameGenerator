@@ -41,8 +41,11 @@ MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('EUROPEAN', 'Europ
 MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('LATINO_HISPANIC', 'Latino / Hispanic', NULL);
 MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('BLACK_AFRICAN_DIASPORA', 'Black / African Diaspora', NULL);
 MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('JEWISH', 'Jewish', NULL);
-MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('MIXED_MULTIRACIAL', 'Mixed / Multiracial', NULL);
 MERGE INTO ancestry (code, name, parent_id) KEY(code) VALUES ('UNSPECIFIED', 'Unspecified', NULL);
+
+-- Drop retired Mixed / Multiracial option (and any profile links) on restart
+DELETE FROM character_profile_ancestries WHERE ancestries_id IN (SELECT id FROM ancestry WHERE code = 'MIXED_MULTIRACIAL');
+DELETE FROM ancestry WHERE code = 'MIXED_MULTIRACIAL';
 
 -- ========== Ancestry (secondary) ==========
 MERGE INTO ancestry (code, name, parent_id) KEY(code) SELECT 'HAN_CHINESE', 'Han Chinese', id FROM ancestry WHERE code = 'EAST_ASIAN';

@@ -18,7 +18,7 @@ All pages except `/login` and `/register` require a signed-in user (email + BCry
 4. **`POST /generate`** — persist profile (owned by the current user) + result, clear session, return to design
 5. **`/history`** — the user's past generations as cards; **`/history/{id}`** — full record (ownership-scoped, else 404)
 
-Identity dimensions and seed dictionaries live in `docs/` (`dimensions.md`, `countries.md`, `races.md`, `religions.md`). Seed SQL: `src/main/resources/data.sql`.
+Identity dimensions and seed dictionaries live in `docs/` (`dimensions.md`, `countries.md`, `races.md`, `religions.md`). Seed SQL: `data-h2.sql` (local) / `data-postgresql.sql` (production).
 
 ## Package layout
 
@@ -27,7 +27,7 @@ Identity dimensions and seed dictionaries live in `docs/` (`dimensions.md`, `cou
 | `controller` | Thin MVC controllers + `@SessionAttributes("characterProfile")` |
 | `model` | JPA entities / enums (`CharacterProfile`, `Country`, `Ancestry`, `Faith`, `Gender`) |
 | `repository` | Spring Data JPA repositories |
-| `web` | Form binders (`*ByIdConverter`), `OptionGroup`, `RegistrationForm` |
+| `web` | Form binders (`*ByIdConverter`), `OptionGroup`, `RegistrationForm`, `HtmlErrorAdvice` |
 | `security` | Spring Security config, `AppUserDetailsService`, `CurrentUserService` |
 | `gemini` | Prompting + Gemini client wrapper (skill prompt: `resources/prompts/name-generation-skill.md`) |
 | `templates/` | Thymeleaf views (`design.html`, `generate.html`) |
@@ -52,6 +52,6 @@ Identity dimensions and seed dictionaries live in `docs/` (`dimensions.md`, `cou
 ## When changing features
 
 - New identity fields: update `CharacterProfile`, design form, validation, Gemini prompt, and `docs/dimensions.md` together.
-- New dictionary data: update the relevant `docs/*.md` and `data.sql` (and entities only if the shape changes).
+- New dictionary data: update the relevant `docs/*.md` and `data-h2.sql` / `data-postgresql.sql` (and entities only if the shape changes).
 - Keep UI and prompts oriented to novelists / game writers — practical names and short annotations, not generic chatbot fluff.
 - Generation methodology changes (research steps, output keys, tone) go in `resources/prompts/name-generation-skill.md`, which is sent as the system instruction on every Gemini call.

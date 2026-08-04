@@ -2,7 +2,7 @@
 
 Primary and secondary ancestry categories for character name generation. Use alongside country (see `countries.md`): country covers nationality or residence; ancestry covers naming tradition and heritage—especially for diaspora and mixed-heritage characters.
 
-Writers may also choose **Unspecified** (infer from other fields) or **Mixed / Multiracial** (select two or more primaries, or describe the mix in free text).
+Writers may also choose **Unspecified** (infer from other fields). Mixed heritage is covered by selecting two or more primary categories, or by describing the mix in the ancestry free-text note.
 
 ## East Asian
 
@@ -112,11 +112,6 @@ Writers may also choose **Unspecified** (infer from other fields) or **Mixed / M
 - Sephardi
 - Mizrahi
 - Other Jewish
-
-## Mixed / Multiracial
-
-- Free-text mix (e.g. East Asian × European)
-- Or select two or more primary categories above
 
 ## Unspecified
 

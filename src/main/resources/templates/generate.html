@@ -11,6 +11,13 @@
     <link rel="stylesheet" th:href="@{/css/site.css}">
 </head>
 <body>
+<div class="wait-overlay" id="waitOverlay" aria-live="polite" aria-busy="false" hidden>
+    <div class="wait-card">
+        <p class="fleuron" aria-hidden="true">❦</p>
+        <p class="wait-title">Consulting the archives…</p>
+        <p class="wait-line">Tracing naming customs and composing a verdict.</p>
+    </div>
+</div>
 <main class="page">
     <nav class="site-nav">
         <div class="nav-links">
@@ -109,9 +116,21 @@
             <input type="hidden" name="generatedExplanation" th:value="${annotation}">
             <button class="btn btn-primary" type="submit" th:disabled="${name == null}">File away</button>
             <a class="btn btn-secondary" th:href="@{/design}">Revise dossier</a>
-            <a class="btn btn-secondary" th:href="@{/generate/current}">Draw again</a>
+            <a class="btn btn-secondary" id="drawAgain" th:href="@{/generate/current}">Draw again</a>
         </form>
     </section>
 </main>
+<script>
+(function () {
+    var overlay = document.getElementById('waitOverlay');
+    var drawAgain = document.getElementById('drawAgain');
+    if (!overlay || !drawAgain) return;
+    drawAgain.addEventListener('click', function () {
+        overlay.hidden = false;
+        overlay.setAttribute('aria-busy', 'true');
+        document.body.classList.add('is-waiting');
+    });
+})();
+</script>
 </body>
 </html>

@@ -52,6 +52,9 @@ git push -u origin main
    - `GOOGLE_API_KEY` — your Gemini API key.
    - `SPRING_DATASOURCE_URL` — the JDBC URL from step 1.
 
+   `REMEMBER_ME_KEY` is generated automatically by the blueprint; it signs the
+   remember-me cookie so logins survive instance restarts.
+
    (`SPRING_PROFILES_ACTIVE=postgres` is already set by the blueprint.)
 4. Deploy. The first build takes several minutes (Maven downloads inside Docker).
    On boot, Hibernate creates the schema in Neon and `data-postgresql.sql` seeds
